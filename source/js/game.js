@@ -25,8 +25,8 @@ class Game {
       return;
     }
 
-    window.setTimeout(() => this.loop(), 16);
-    this.systems.forEach(system => system.tick());
+    window.requestAnimationFrame(() => this.loop());
+    this.systems.forEach(system => system.tick(this.entities));
   }
 
   start () {

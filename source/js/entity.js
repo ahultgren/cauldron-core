@@ -17,6 +17,14 @@ class Entity {
     return this;
   }
 
+  getComponent (name) {
+    return this.components[name];
+  }
+
+  hasComponent (name) {
+    return name in this.components;
+  }
+
   removeComponent (name) {
     if(name.name) {
       name = name.name;
