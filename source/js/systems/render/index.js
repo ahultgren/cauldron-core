@@ -1,8 +1,12 @@
 'use strict';
 
-var hasAppearance = entity => entity.hasComponent('appearance');
-var hasPosition = entity => entity.hasComponent('position');
-var canRender = entity => hasAppearance(entity) && hasPosition(entity);
+const SHAPES = {
+  arc: require('./arc'),
+  line: require('./line'),
+  noop: (_, {shape}) => console.error(`Trying to render undefined shape ${shape}`),
+};
+
+var canRender = entity => entity.hasComponents('appearance', 'position');
 
 class Render {
   static create (canvas) {
@@ -36,38 +40,10 @@ class Render {
       }
 
       var {x, y, a} = entity.getComponent('position');
-      var {fill, stroke, shape, radius, gap = 0} = entity.getComponent('appearance');
+      var appearance = entity.getComponent('appearance');
 
       this.transform(x, y, a);
-
-      // [TODO] Pretty this up
-      switch (shape) {
-        case 'line':
-          ctx.strokeStyle = fill;
-          ctx.lineWidth = 1;
-          ctx.beginPath();
-          ctx.moveTo(0, 0);
-          ctx.lineTo(100, 100);
-          ctx.stroke();
-          break;
-
-        case 'arc':
-          ctx.beginPath();
-          ctx.arc(0, 0, radius, gap, Math.PI * 2 - gap, false);
-
-          if(gap) {
-            ctx.lineTo(0, 0);
-          }
-
-          ctx.fillStyle = fill;
-          ctx.fill();
-
-          if(stroke) {
-            ctx.strokeStyle = stroke;
-            ctx.stroke();
-          }
-          break;
-      }
+      (SHAPES[appearance.shape] || SHAPES.noop)(ctx, appearance);
     });
   }
 
