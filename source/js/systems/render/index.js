@@ -39,11 +39,12 @@ class Render {
         return;
       }
 
-      var {x, y, a} = entity.getComponent('position');
+      var position;
+      var {x, y, a} = position = entity.getComponent('position');
       var appearance = entity.getComponent('appearance');
 
       this.transform(x, y, a);
-      (SHAPES[appearance.shape] || SHAPES.noop)(ctx, appearance);
+      (SHAPES[appearance.shape] || SHAPES.noop)(ctx, position, appearance);
     });
   }
 

@@ -6,4 +6,7 @@ module.exports = require('../utils/component')({
   y: 0,
   z: 0,
   a: 0,
+  offsetX: 0,
+  offsetY: 0,
+  offsetZ: 0,
 });

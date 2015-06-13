@@ -1,11 +1,11 @@
 'use strict';
 
-module.exports = (ctx, {fill, stroke, radius, gap = 0}) => {
+module.exports = (ctx, {offsetX, offsetY}, {fill, stroke, radius, gap = 0, segment}) => {
   ctx.beginPath();
-  ctx.arc(0, 0, radius, gap, Math.PI * 2 - gap, false);
+  ctx.arc(offsetX, offsetY, radius, gap, Math.PI * 2 - gap, false);
 
-  if(gap) {
-    ctx.lineTo(0, 0);
+  if(segment) {
+    ctx.lineTo(offsetX, offsetY);
   }
 
   ctx.fillStyle = fill;

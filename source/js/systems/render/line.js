@@ -1,10 +1,10 @@
 'use strict';
 
-module.exports = (ctx, {fill}) => {
+module.exports = (ctx, {offsetX, offsetY}, {fill}) => {
   ctx.strokeStyle = fill;
   ctx.lineWidth = 1;
   ctx.beginPath();
-  ctx.moveTo(0, 0);
+  ctx.moveTo(offsetX, offsetY);
   ctx.lineTo(100, 100);
   ctx.stroke();
 };
