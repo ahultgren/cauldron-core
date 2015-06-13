@@ -36,7 +36,7 @@ class Render {
       }
 
       var {x, y, a} = entity.getComponent('position');
-      var {color, shape, radius} = entity.getComponent('appearance');
+      var {color, shape, radius, gap} = entity.getComponent('appearance');
 
       this.transform(x, y, a);
 
@@ -51,10 +51,11 @@ class Render {
           ctx.stroke();
           break;
 
-        case 'circle':
+        case 'arc':
           ctx.beginPath();
           ctx.fillStyle = color;
-          ctx.arc(0, 0, radius, 0, Math.PI * 2);
+          ctx.arc(0, 0, radius, gap, Math.PI * 2 - gap, false);
+          ctx.lineTo(0, 0);
           ctx.fill();
           break;
       }
