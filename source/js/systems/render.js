@@ -36,14 +36,14 @@ class Render {
       }
 
       var {x, y, a} = entity.getComponent('position');
-      var {color, shape, radius, gap} = entity.getComponent('appearance');
+      var {fill, stroke, shape, radius, gap = 0} = entity.getComponent('appearance');
 
       this.transform(x, y, a);
 
       // [TODO] Pretty this up
       switch (shape) {
         case 'line':
-          ctx.strokeStyle = color;
+          ctx.strokeStyle = fill;
           ctx.lineWidth = 1;
           ctx.beginPath();
           ctx.moveTo(0, 0);
@@ -53,10 +53,19 @@ class Render {
 
         case 'arc':
           ctx.beginPath();
-          ctx.fillStyle = color;
           ctx.arc(0, 0, radius, gap, Math.PI * 2 - gap, false);
-          ctx.lineTo(0, 0);
+
+          if(gap) {
+            ctx.lineTo(0, 0);
+          }
+
+          ctx.fillStyle = fill;
           ctx.fill();
+
+          if(stroke) {
+            ctx.strokeStyle = stroke;
+            ctx.stroke();
+          }
           break;
       }
     });
