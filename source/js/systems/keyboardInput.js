@@ -1,12 +1,5 @@
 'use strict';
 
-const KEYS = {
-  w: 87,
-  a: 65,
-  s: 83,
-  d: 68
-};
-
 var controllable = entity => entity.hasComponents('keyboardControlled', 'physics');
 
 class KeyboardInput {
@@ -33,17 +26,18 @@ class KeyboardInput {
       }
 
       var physics = entity.getComponent('physics');
+      var keyboard = entity.getComponent('keyboardControlled');
 
-      if(this.isPressed[KEYS.a]) {
+      if(this.isPressed[keyboard.left]) {
         physics.dx -= physics.acceleration;
       }
-      if(this.isPressed[KEYS.d]) {
+      if(this.isPressed[keyboard.right]) {
         physics.dx += physics.acceleration;
       }
-      if(this.isPressed[KEYS.w]) {
+      if(this.isPressed[keyboard.up]) {
         physics.dy -= physics.acceleration;
       }
-      if(this.isPressed[KEYS.s]) {
+      if(this.isPressed[keyboard.down]) {
         physics.dy += physics.acceleration;
       }
     });
