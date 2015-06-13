@@ -1,9 +1,7 @@
 'use strict';
 
-module.exports = function appearance () {
-  return {
-    name: 'appearance',
-    shape: 'line',
-    color: '#f00'
-  };
-};
+module.exports = require('../utils/component')({
+  name: 'appearance',
+  shape: 'line',
+  color: '#f00'
+});

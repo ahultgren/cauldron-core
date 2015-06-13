@@ -1,4 +1,4 @@
-'use strict';
+ 'use strict';
 
 var uuid = require('uuid');
 
@@ -23,6 +23,10 @@ class Entity {
 
   hasComponent (name) {
     return name in this.components;
+  }
+
+  hasComponents (...names) {
+    return names.every(name => this.hasComponent(name));
   }
 
   removeComponent (name) {

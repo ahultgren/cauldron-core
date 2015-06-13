@@ -7,7 +7,7 @@ const KEYS = {
   d: 68
 };
 
-var controllable = entity => entity.hasComponent('keyboardControlled') && entity.hasComponent('position');
+var controllable = entity => entity.hasComponents('keyboardControlled', 'physics');
 
 class KeyboardInput {
   static create () {
@@ -32,19 +32,19 @@ class KeyboardInput {
         return;
       }
 
-      var position = entity.getComponent('position');
+      var physics = entity.getComponent('physics');
 
       if(this.isPressed[KEYS.a]) {
-        position.x--;
+        physics.dx -= physics.acceleration;
       }
       if(this.isPressed[KEYS.d]) {
-        position.x++;
+        physics.dx += physics.acceleration;
       }
       if(this.isPressed[KEYS.w]) {
-        position.y--;
+        physics.dy -= physics.acceleration;
       }
       if(this.isPressed[KEYS.s]) {
-        position.y++;
+        physics.dy += physics.acceleration;
       }
     });
   }

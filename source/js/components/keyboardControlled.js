@@ -1,7 +1,5 @@
 'use strict';
 
-module.exports = function keyboardControlled () {
-  return {
-    name: 'keyboardControlled'
-  };
-};
+module.exports = require('../utils/component')({
+  name: 'keyboardControlled'
+});

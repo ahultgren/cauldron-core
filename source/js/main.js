@@ -3,10 +3,12 @@
 var Game = require('./game');
 var Render = require('./systems/render');
 var KeyboardInput = require('./systems/keyboardInput');
+var Movement = require('./systems/movement');
 var Entity = require('./entity');
 var position = require('./components/position');
 var appearance = require('./components/appearance');
 var keyboardControlled = require('./components/keyboardControlled');
+var physics = require('./components/physics');
 
 var canvas = document.querySelector('.js-canvas');
 
@@ -22,13 +24,16 @@ ball.radius = 10;
 test2.addComponent(position({x: 200, y: 10}));
 test2.addComponent(ball);
 test2.addComponent(keyboardControlled());
+test2.addComponent(physics({
+  acceleration: 0.8,
+  friction: 0.9
+}));
 
 var game = Game.create();
 game.addSystem(KeyboardInput.create());
+game.addSystem(Movement.create());
 game.addSystem(Render.create(canvas));
 game.addEntity(test);
 game.addEntity(test2);
 
 game.start();
-
-console.log('hello world');
