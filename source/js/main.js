@@ -29,7 +29,12 @@ game.addSystem(Render.create(document.querySelector('.js-canvas')));
 
 var test = Entity.create();
 test.addComponent(position({x: 10, y: 10}));
-test.addComponent(appearance());
+test.addComponent(appearance({
+  shape: 'polygon',
+  fill: 'transparent',
+  stroke: '#f00',
+  path: [[0, 200], [200, 0]],
+}));
 game.addEntity(test);
 
 var test2 = Entity.create();
@@ -70,7 +75,7 @@ pointer.addComponent(position({x: 0, y: 0}));
 pointer.addComponent(pointerFollower());
 pointer.addComponent(appearance({
   fill: 'transparent',
-  stroke: '#eee',
+  stroke: '#fd0',
   shape: 'arc',
   radius: 10,
   gap: 0,
@@ -86,7 +91,8 @@ pointerPoint.addComponent(position({
   offsetY: 0,
 }));
 pointerPoint.addComponent(appearance({
-  fill: '#f00',
+  fill: '#fd0',
+  stroke: 'transparent',
   shape: 'arc',
   radius: 2,
 }));

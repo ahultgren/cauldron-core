@@ -2,6 +2,6 @@
 
 module.exports = require('../utils/component')({
   name: 'appearance',
-  shape: 'line',
+  shape: '',
   fill: '#f00',
 });
