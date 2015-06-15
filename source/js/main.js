@@ -81,6 +81,9 @@ weapon.addComponent(parent({
 weapon.addComponent(factory({
   factory: 'bullet',
   event: 'click',
+  data: {
+    speed: 10,
+  }
 }));
 game.addEntity(weapon);
 

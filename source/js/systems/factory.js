@@ -1,9 +1,6 @@
 'use strict';
 
-var Entity = require('../entity');
-var position = require('../components/position');
-var physics = require('../components/physics');
-var appearance = require('../components/appearance');
+var factories = require('../factories');
 
 class Factory {
   static create () {
@@ -21,25 +18,10 @@ class Factory {
       }
 
       var factory = entity.getComponent('factory');
+      var e = this.mediator.triggered(factory.event);
 
-      if(this.mediator.triggered(factory.event)) {
-        switch(factory.factory) {
-          case 'bullet':
-            var p = entity.getComponent('position');
-
-            var bullet = Entity.create();
-            bullet.addComponent(position(p));
-            bullet.addComponent(physics({
-              dx: 5 * Math.cos(p.a),
-              dy: 5 * Math.sin(p.a),
-            }));
-            bullet.addComponent(appearance({
-              shape: 'arc',
-              radius: 5,
-            }));
-            this.game.addEntity(bullet);
-            break;
-        }
+      if(e) {
+        this.game.addEntity(factories[factory.factory](entity, e));
       }
     });
   }
