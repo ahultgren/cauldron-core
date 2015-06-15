@@ -13,6 +13,13 @@ class MouseInput {
       this.mouseX = e.pageX;
       this.mouseY = e.pageY;
     }, false);
+
+    window.addEventListener('mousedown', (e) => {
+      this.mediator.trigger('click', {
+        x: e.pageX,
+        y: e.pageY,
+      });
+    }, false);
   }
 
   tick (entities) {

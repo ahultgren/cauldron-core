@@ -8,6 +8,7 @@ var Movement = require('./systems/movement');
 var MouseInput = require('./systems/mouseInput');
 var PointerFollower = require('./systems/pointerFollower');
 var Parent = require('./systems/parent');
+var Factory = require('./systems/factory');
 
 var position = require('./components/position');
 var appearance = require('./components/appearance');
@@ -16,59 +17,72 @@ var mouseControlled = require('./components/mouseControlled');
 var physics = require('./components/physics');
 var pointerFollower = require('./components/pointerFollower');
 var parent = require('./components/parent');
+var factory = require('./components/factory');
 
 var Entity = require('./entity');
 
 var game = Game.create();
 game.addSystem(KeyboardInput.create());
 game.addSystem(MouseInput.create());
+game.addSystem(Factory.create());
 game.addSystem(PointerFollower.create());
 game.addSystem(Movement.create());
 game.addSystem(Parent.create());
 game.addSystem(Render.create(document.querySelector('.js-canvas')));
 
-var test = Entity.create();
-test.addComponent(position({x: 10, y: 10}));
-test.addComponent(appearance({
+var polygon = Entity.create();
+polygon.addComponent(position({x: 10, y: 10}));
+polygon.addComponent(appearance({
   shape: 'polygon',
   fill: 'transparent',
   stroke: '#f00',
   path: [[0, 200], [200, 0]],
 }));
-game.addEntity(test);
+game.addEntity(polygon);
 
-var test2 = Entity.create();
-test2.addComponent(position({x: 200, y: 10}));
-test2.addComponent(appearance({
+var player = Entity.create();
+player.addComponent(position({x: 200, y: 10}));
+player.addComponent(appearance({
   shape: 'arc',
   radius: 10,
   gap: Math.PI * 0.25,
   segment: true,
 }));
-test2.addComponent(keyboardControlled());
-test2.addComponent(physics({
+player.addComponent(keyboardControlled());
+player.addComponent(physics({
   acceleration: 0.8,
   friction: 0.9,
 }));
-test2.addComponent(mouseControlled());
-game.addEntity(test2);
+player.addComponent(mouseControlled());
+game.addEntity(player);
 
-var follower = Entity.create();
-follower.addComponent(parent({
-  parentId: test2.id,
+var shield = Entity.create();
+shield.addComponent(parent({
+  parentId: player.id,
 }));
-follower.addComponent(position({
+shield.addComponent(position({
   offsetX: 170,
   offsetY: 0,
 }));
-follower.addComponent(appearance({
+shield.addComponent(appearance({
   fill: 'transparent',
   stroke: '#f00',
   shape: 'arc',
   radius: 200,
   gap: Math.PI * 0.95,
 }));
-game.addEntity(follower);
+game.addEntity(shield);
+
+var weapon = Entity.create();
+weapon.addComponent(position());
+weapon.addComponent(parent({
+  parentId: player.id,
+}));
+weapon.addComponent(factory({
+  factory: 'bullet',
+  event: 'click',
+}));
+game.addEntity(weapon);
 
 var pointer = Entity.create();
 pointer.addComponent(position({x: 0, y: 0}));
