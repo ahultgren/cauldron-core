@@ -30,15 +30,15 @@ game.addSystem(Movement.create());
 game.addSystem(Parent.create());
 game.addSystem(Render.create(document.querySelector('.js-canvas')));
 
-var polygon = Entity.create();
-polygon.addComponent(position({x: 10, y: 10}));
-polygon.addComponent(appearance({
-  shape: 'polygon',
+var map = Entity.create();
+map.addComponent(position());
+map.addComponent(appearance({
+  shape: 'polygons',
   fill: 'transparent',
   stroke: '#f00',
-  path: [[0, 0], [0, 200], [200, 0]],
+  paths: require('./maps/one'),
 }));
-game.addEntity(polygon);
+game.addEntity(map);
 
 var player = Entity.create();
 player.addComponent(position({x: 200, y: 10}));

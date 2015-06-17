@@ -4,6 +4,7 @@ const SHAPES = {
   arc: require('./arc'),
   line: require('./line'),
   polygon: require('./polygon'),
+  polygons: require('./polygons'),
   noop: (_, {shape}) => console.error(`Trying to render undefined shape ${shape}`),
 };
 
