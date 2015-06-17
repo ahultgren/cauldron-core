@@ -1,11 +1,11 @@
 'use strict';
 
-module.exports = (ctx, {offsetX, offsetY}, {fill, stroke, path}) => {
+module.exports = (ctx, {fill, stroke, path: [[startX, startY], ...path]}) => {
   ctx.beginPath();
   ctx.fillStyle = fill;
   ctx.strokeStyle = stroke;
 
-  ctx.moveTo(offsetX, offsetY);
+  ctx.moveTo(startX, startY);
 
   path.forEach(([x, y]) => {
     ctx.lineTo(x, y);

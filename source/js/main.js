@@ -36,7 +36,7 @@ polygon.addComponent(appearance({
   shape: 'polygon',
   fill: 'transparent',
   stroke: '#f00',
-  path: [[0, 200], [200, 0]],
+  path: [[0, 0], [0, 200], [200, 0]],
 }));
 game.addEntity(polygon);
 

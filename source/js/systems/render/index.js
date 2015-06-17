@@ -40,12 +40,12 @@ class Render {
         return;
       }
 
-      var position;
-      var {x, y, a} = position = entity.getComponent('position');
+      var {x, y, a, offsetX, offsetY} = entity.getComponent('position');
       var appearance = entity.getComponent('appearance');
 
       this.transform(x, y, a);
-      (SHAPES[appearance.shape] || SHAPES.noop)(ctx, position, appearance);
+      ctx.translate(offsetX, offsetY);
+      (SHAPES[appearance.shape] || SHAPES.noop)(ctx, appearance);
     });
   }
 
