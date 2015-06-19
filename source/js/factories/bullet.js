@@ -4,6 +4,7 @@ var Entity = require('../entity');
 var position = require('../components/position');
 var physics = require('../components/physics');
 var appearance = require('../components/appearance');
+var collision = require('../components/collision');
 
 module.exports = (source) => {
   var factory = source.getComponent('factory');
@@ -17,6 +18,9 @@ module.exports = (source) => {
   }));
   bullet.addComponent(appearance({
     shape: 'arc',
+    radius: 5,
+  }));
+  bullet.addComponent(collision.fromArc({
     radius: 5,
   }));
 

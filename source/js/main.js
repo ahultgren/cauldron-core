@@ -9,6 +9,7 @@ var MouseInput = require('./systems/mouseInput');
 var PointerFollower = require('./systems/pointerFollower');
 var Parent = require('./systems/parent');
 var Factory = require('./systems/factory');
+var Collision = require('./systems/collision');
 
 var position = require('./components/position');
 var appearance = require('./components/appearance');
@@ -18,6 +19,7 @@ var physics = require('./components/physics');
 var pointerFollower = require('./components/pointerFollower');
 var parent = require('./components/parent');
 var factory = require('./components/factory');
+var collision = require('./components/collision');
 
 var Entity = require('./entity');
 
@@ -27,18 +29,24 @@ game.addSystem(MouseInput.create());
 game.addSystem(Factory.create());
 game.addSystem(PointerFollower.create());
 game.addSystem(Movement.create());
+game.addSystem(Collision.create());
 game.addSystem(Parent.create());
 game.addSystem(Render.create(document.querySelector('.js-canvas')));
 
 var map = Entity.create();
+var mapPaths = require('./maps/one');
 map.addComponent(position());
 map.addComponent(appearance({
   shape: 'polygons',
   fill: 'transparent',
   stroke: '#f00',
-  paths: require('./maps/one'),
+  paths: mapPaths,
+}));
+map.addComponent(collision.fromPaths({
+  paths: mapPaths,
 }));
 game.addEntity(map);
+game.setMap(map);
 
 var player = Entity.create();
 player.addComponent(position({x: 200, y: 10}));
@@ -50,10 +58,13 @@ player.addComponent(appearance({
 }));
 player.addComponent(keyboardControlled());
 player.addComponent(physics({
-  acceleration: 0.8,
-  friction: 0.9,
+  acceleration: 2.5,
+  friction: 0.65,
 }));
 player.addComponent(mouseControlled());
+player.addComponent(collision.fromArc({
+  radius: 10,
+}));
 game.addEntity(player);
 
 var shield = Entity.create();

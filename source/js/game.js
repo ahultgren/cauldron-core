@@ -34,6 +34,10 @@ class Game {
     this.systems.forEach(system => system.tick(this.entities));
   }
 
+  setMap (map) {
+    this.map = map;
+  }
+
   start () {
     // Mediator last
     this.addSystem(this.mediator);
