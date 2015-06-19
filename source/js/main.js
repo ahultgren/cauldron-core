@@ -10,6 +10,7 @@ var PointerFollower = require('./systems/pointerFollower');
 var Parent = require('./systems/parent');
 var Factory = require('./systems/factory');
 var Collision = require('./systems/collision');
+var Animation = require('./systems/animation');
 
 var position = require('./components/position');
 var appearance = require('./components/appearance');
@@ -31,6 +32,7 @@ game.addSystem(Movement.create());
 game.addSystem(Collision.create());
 game.addSystem(Parent.create());
 game.addSystem(Factory.create());
+game.addSystem(Animation.create());
 game.addSystem(Render.create(document.querySelector('.js-canvas')));
 
 var map = Entity.create();

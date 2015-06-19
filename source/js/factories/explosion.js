@@ -3,6 +3,7 @@
 var Entity = require('../entity');
 var position = require('../components/position');
 var appearance = require('../components/appearance');
+var animation = require('../components/animation');
 
 module.exports = (source) => {
   var bulletPosition = source.getComponent('position');
@@ -13,8 +14,11 @@ module.exports = (source) => {
   }));
   explosion.addComponent(appearance({
     shape: 'arc',
-    radius: 20,
-    fill: '#f93',
+    radius: 35,
+    fill: '#f90',
+  }));
+  explosion.addComponent(animation({
+    duration: 10,
   }));
   return explosion;
 };
