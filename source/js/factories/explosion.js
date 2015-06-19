@@ -4,6 +4,7 @@ var Entity = require('../entity');
 var position = require('../components/position');
 var appearance = require('../components/appearance');
 var animation = require('../components/animation');
+var expire = require('../components/expire');
 
 module.exports = (source) => {
   var bulletPosition = source.getComponent('position');
@@ -18,6 +19,9 @@ module.exports = (source) => {
     fill: '#f90',
   }));
   explosion.addComponent(animation({
+    duration: 10,
+  }));
+  explosion.addComponent(expire({
     duration: 10,
   }));
   return explosion;

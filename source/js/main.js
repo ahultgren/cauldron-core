@@ -11,6 +11,7 @@ var Parent = require('./systems/parent');
 var Factory = require('./systems/factory');
 var Collision = require('./systems/collision');
 var Animation = require('./systems/animation');
+var Expire = require('./systems/expire');
 
 var position = require('./components/position');
 var appearance = require('./components/appearance');
@@ -32,6 +33,7 @@ game.addSystem(Movement.create());
 game.addSystem(Collision.create());
 game.addSystem(Parent.create());
 game.addSystem(Factory.create());
+game.addSystem(Expire.create());
 game.addSystem(Animation.create());
 game.addSystem(Render.create(document.querySelector('.js-canvas')));
 
@@ -129,3 +131,5 @@ pointerPoint.addComponent(appearance({
 game.addEntity(pointerPoint);
 
 game.start();
+
+window.game = game;
