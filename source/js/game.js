@@ -19,6 +19,11 @@ class Game {
     return this;
   }
 
+  removeEntity (id) {
+    this.entities.get(id).remove = true;
+    return this;
+  }
+
   addSystem (system) {
     this.systems.push(system);
     system.mediator = this.mediator;
@@ -31,6 +36,11 @@ class Game {
     }
 
     window.requestAnimationFrame(() => this.loop());
+    this.entities.forEach((entity) => {
+      if(entity.remove) {
+        this.entities.delete(entity.id);
+      }
+    });
     this.systems.forEach(system => system.tick(this.entities));
   }
 

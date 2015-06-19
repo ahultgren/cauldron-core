@@ -13,7 +13,7 @@ class Mediator {
     this.events = {};
   }
 
-  trigger (name, data) {
+  emit (name, data) {
     // [TODO] Support more than one event per event name per tick
     this.events[name] = data;
   }

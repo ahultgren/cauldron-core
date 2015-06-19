@@ -9,9 +9,10 @@ module.exports = exports = require('../utils/component')({
   path: '',
   paths: '',
   radius: '',
+  response: '',
 });
 
-exports.fromArc = ({radius}) => {
+exports.fromArc = ({radius, response}) => {
   return exports({
     shape: 'circle',
     aabb: {
@@ -21,10 +22,11 @@ exports.fromArc = ({radius}) => {
       y: -radius,
     },
     radius,
+    response,
   });
 };
 
-exports.fromPaths = ({paths}) => {
+exports.fromPaths = ({paths, response}) => {
   var aabbs = paths.map((path) => {
     var xs = path.map(R.prop('0'));
     var ys = path.map(R.prop('1'));
@@ -41,5 +43,6 @@ exports.fromPaths = ({paths}) => {
     shape: 'paths',
     aabbs,
     paths,
+    response,
   });
 };

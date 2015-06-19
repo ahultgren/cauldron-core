@@ -68,6 +68,10 @@ class Collision {
     entities.forEach((entity) => {
       if(aabbTest(this.game.map, entity)) {
         console.log('collision', entity.id);
+        this.mediator.emit(`collision:${entity.id}`, {});
+        if(entity.getComponent('collision').response === 'die') {
+          this.game.removeEntity(entity.id);
+        }
       }
     });
   }

@@ -15,7 +15,7 @@ class MouseInput {
     }, false);
 
     window.addEventListener('mousedown', (e) => {
-      this.mediator.trigger('click', {
+      this.mediator.emit('click', {
         x: e.pageX,
         y: e.pageY,
       });

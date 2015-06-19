@@ -26,11 +26,11 @@ var Entity = require('./entity');
 var game = Game.create();
 game.addSystem(KeyboardInput.create());
 game.addSystem(MouseInput.create());
-game.addSystem(Factory.create());
 game.addSystem(PointerFollower.create());
 game.addSystem(Movement.create());
 game.addSystem(Collision.create());
 game.addSystem(Parent.create());
+game.addSystem(Factory.create());
 game.addSystem(Render.create(document.querySelector('.js-canvas')));
 
 var map = Entity.create();
