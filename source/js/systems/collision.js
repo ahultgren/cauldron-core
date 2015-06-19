@@ -15,39 +15,53 @@ var filterSet = (fn, set) => {
   return result;
 };
 
+var makeRect = (entity) => {
+  var position = entity.getComponent('position');
+  var {x, y, width, height} = entity.getComponent('collision').aabb;
+
+  // [TODO] Need to compensate for rotation when using offset?
+  return {
+    id: entity.id,
+    x: position.x + position.offsetX + (x || 0),
+    y: position.y + position.offsetY + (y || 0),
+    width,
+    height,
+  };
+};
+
 var makeRects = (entity) => {
   var collision = entity.getComponent('collision');
-  var aabbs = collision.aabb && [collision.aabb] || collision.aabbs;
   var position = entity.getComponent('position');
 
   // [TODO] Need to compensate for rotation when using offset?
-  return aabbs.map((aabb) => {
+  return collision.aabbs.map(({x, y, width, height}) => {
     return {
-      x: position.x + position.offsetX + (aabb.x || 0),
-      y: position.y + position.offsetY + (aabb.y || 0),
-      width: aabb.width,
-      height: aabb.height,
+      id: entity.id,
+      x: position.x + position.offsetX + (x || 0),
+      y: position.y + position.offsetY + (y || 0),
+      width,
+      height,
     };
   });
 };
 
-var aabbTest = (entity1, entity2) => {
-  var rects1 = makeRects(entity1);
-  var rects2 = makeRects(entity2);
-
-  return rects1.filter((rect1) => {
-    return rects2.filter((rect2) => {
-      if(
-        rect1.x < rect2.x + rect2.width &&
-        rect1.x + rect1.width > rect2.x &&
-        rect1.y < rect2.y + rect2.height &&
-        rect1.height + rect1.y > rect2.y
-      ) {
-        return true;
-      }
-    }).length;
-  }).length;
+var aabbTest = (rect1, rect2) => {
+  return rect1.x < rect2.x + rect2.width
+    && rect1.x + rect1.width > rect2.x
+    && rect1.y < rect2.y + rect2.height
+    && rect1.height + rect1.y > rect2.y;
 };
+
+var mapAabbTest = (map, entity) => {
+  var rectsMap = makeRects(map);
+  var rect2 = makeRect(entity);
+
+  return rectsMap.filter(rect1 =>
+    aabbTest(rect1, rect2)).length;
+};
+
+/* Public API
+============================================================================= */
 
 class Collision {
   static create () {
@@ -66,7 +80,7 @@ class Collision {
 
   mapTests (entities) {
     entities.forEach((entity) => {
-      if(aabbTest(this.game.map, entity)) {
+      if(mapAabbTest(this.game.map, entity)) {
         console.log('collision', entity.id);
         this.mediator.emit(`collision:${entity.id}`, {});
         if(entity.getComponent('collision').response === 'die') {
