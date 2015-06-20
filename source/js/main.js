@@ -29,8 +29,8 @@ var game = Game.create();
 game.addSystem(KeyboardInput.create());
 game.addSystem(MouseInput.create());
 game.addSystem(PointerFollower.create());
-game.addSystem(Movement.create());
 game.addSystem(Collision.create());
+game.addSystem(Movement.create());
 game.addSystem(Parent.create());
 game.addSystem(Factory.create());
 game.addSystem(Expire.create());
@@ -97,7 +97,7 @@ weapon.addComponent(factory({
   factory: 'bullet',
   event: 'click',
   data: {
-    speed: 10,
+    speed: 20,
   }
 }));
 game.addEntity(weapon);

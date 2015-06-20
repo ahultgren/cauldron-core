@@ -19,6 +19,10 @@ class Game {
     return this;
   }
 
+  getEntity (id) {
+    return this.entities.get(id);
+  }
+
   removeEntity (id) {
     this.entities.get(id).remove = true;
     return this;
