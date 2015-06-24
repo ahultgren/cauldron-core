@@ -116,6 +116,9 @@ var sweptAABB = (a, b, v) => {
 
   //=================================
 
+  hitTime = 0;
+  outTime = 1;
+
   // Y axis overlap
   if(v.dy < 0) {
     if((b.y + b.height) < a.y) {
@@ -195,11 +198,16 @@ class Collision {
         var result = sweptAABB(rect, mapRect, rect);
 
         if(result) {
+          var [newVel, [normalX, normalY]] = result;
           var entity = this.game.getEntity(rect.id);
           var physics = entity.getComponent('physics');
 
-          physics.dx = result[0].dx;
-          physics.dy = result[0].dy;
+          if(normalX) {
+            physics.dx = result[0].dx;
+          }
+          if(normalY) {
+            physics.dy = result[0].dy;
+          }
 
           this.mediator.emit(`collision:${rect.id}`, {});
           if(entity.getComponent('collision').response === 'die') {
