@@ -198,7 +198,7 @@ class Collision {
         var result = sweptAABB(rect, mapRect, rect);
 
         if(result) {
-          var [newVel, [normalX, normalY]] = result;
+          var [, [normalX, normalY]] = result;
           var entity = this.game.getEntity(rect.id);
           var physics = entity.getComponent('physics');
 

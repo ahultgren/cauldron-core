@@ -1,5 +1,7 @@
 'use strict';
 
+/*eslint no-use-before-define:0*/
+
 var gulp = require('gulp');
 var util = require('gulp-util');
 var eslint = require('gulp-eslint');
@@ -10,6 +12,7 @@ var source = require('vinyl-source-stream');
 var buffer = require('vinyl-buffer');
 var babelify = require('babelify');
 var uglify = require('gulp-uglify');
+var watchify = require('watchify');
 
 var publicJsDir = 'source/js';
 var publicJsRoot = './' + publicJsDir + '/main.js';
@@ -27,21 +30,35 @@ function handleError (error) {
 }
 
 gulp.task('lint', function() {
-  gulp.src(jsGlob)
+  return gulp.src(jsGlob)
     .pipe(eslint())
     .on('error', handleError)
     .pipe(eslint.format());
 });
 
 gulp.task('browserify', function() {
-  var bundler = browserify({
+  var b = browserify({
     entries: [publicJsRoot],
-    debug: true
+    cache: {},
+    packageCache: {},
+  })
+  .transform(babelify);
+
+  b = watchify(b, {
+    delay: 100,
   });
 
-  var bundle = function() {
-    return bundler
-      .transform(babelify)
+  b.on('update', function () {
+    util.log('Starting \'watchify\'');
+    bundle();
+  });
+
+  b.on('time', function (time) {
+    util.log('Finished \'watchify\' after ' + time + ' ms');
+  });
+
+  function bundle () {
+    return b
       .bundle()
       .on('error', util.log.bind(util, 'Browserify Error'))
       .pipe(source(jsMin))
@@ -50,14 +67,14 @@ gulp.task('browserify', function() {
       .pipe(uglify())
       .pipe(sourcemaps.write('./'))
       .pipe(gulp.dest(jsDest));
-  };
+  }
 
   return bundle();
 });
 
 
 gulp.task('less', function () {
-  gulp.src(lessSrc)
+  return gulp.src(lessSrc)
     .pipe(less({
       paths: [],
       compress: true
@@ -67,7 +84,7 @@ gulp.task('less', function () {
 });
 
 gulp.task('watch', function () {
-  gulp.watch(jsGlob, ['lint', 'build_js']);
+  gulp.watch(jsGlob, ['lint']);
   gulp.watch(lessSrcGlob, ['build_css']);
 });
 
