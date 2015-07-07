@@ -1,12 +1,10 @@
 'use strict';
 
 var Game = require('./game');
-var menu = require('./menu');
-var Render = require('./systems/render');
-var state = require('./state');
-var actions = require('./actions');
+var Socket = require('./socket');
 var maps = require('./maps');
 
+var Render = require('./systems/render');
 var KeyboardInput = require('./systems/keyboardInput');
 var Movement = require('./systems/movement');
 var MouseInput = require('./systems/mouseInput');
@@ -16,6 +14,7 @@ var Factory = require('./systems/factory');
 var Collision = require('./systems/collision');
 var Animation = require('./systems/animation');
 var Expire = require('./systems/expire');
+var Multiplayer = require('./systems/multiplayer');
 
 var position = require('./components/position');
 var appearance = require('./components/appearance');
@@ -29,12 +28,10 @@ var collision = require('./components/collision');
 
 var Entity = require('./entity');
 
-menu.init(document.querySelector('.js-menu'), state);
+// [TODO] Use a config file
+var socket = Socket.create('ws://localhost:5005');
 
-var currentGame = state.facets.currentGame;
-currentGame.on('update', () => {
-  var {game_id, rules} = currentGame.get();
-  void game_id; //##
+socket.on('game/joined', (rules) => {
   var game = Game.create();
   game.addSystem(KeyboardInput.create());
   game.addSystem(MouseInput.create());
@@ -44,9 +41,9 @@ currentGame.on('update', () => {
   game.addSystem(Parent.create());
   game.addSystem(Factory.create());
   game.addSystem(Expire.create());
+  game.addSystem(Multiplayer.create(socket));
   game.addSystem(Animation.create());
   game.addSystem(Render.create(document.querySelector('.js-canvas')));
-  //## game.addSystem(Multiplayer.create({game_id, player}));
 
   var map = Entity.create();
   var mapPaths = maps[rules.map];
@@ -145,6 +142,3 @@ currentGame.on('update', () => {
 
   window.game = game;
 });
-
-actions.updateGames();
-actions.updatePlayers();
