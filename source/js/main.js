@@ -20,11 +20,12 @@ var position = require('./components/position');
 var appearance = require('./components/appearance');
 var keyboardControlled = require('./components/keyboardControlled');
 var mouseControlled = require('./components/mouseControlled');
-var physics = require('./components/physics');
 var pointerFollower = require('./components/pointerFollower');
 var parent = require('./components/parent');
 var factory = require('./components/factory');
 var collision = require('./components/collision');
+
+var playerFactory = require('./factories/player');
 
 var Entity = require('./entity');
 
@@ -60,23 +61,9 @@ socket.on('game/joined', (rules) => {
   game.addEntity(map);
   game.setMap(map);
 
-  var player = Entity.create();
-  player.addComponent(position({x: 200, y: 50}));
-  player.addComponent(appearance({
-    shape: 'arc',
-    radius: 10,
-    gap: Math.PI * 0.25,
-    segment: true,
-  }));
+  var player = playerFactory();
   player.addComponent(keyboardControlled());
-  player.addComponent(physics({
-    acceleration: 2.5,
-    friction: 0.65,
-  }));
   player.addComponent(mouseControlled());
-  player.addComponent(collision.fromArc({
-    radius: 10,
-  }));
   game.addEntity(player);
 
   var shield = Entity.create();
