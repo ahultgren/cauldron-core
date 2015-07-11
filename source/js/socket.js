@@ -18,7 +18,6 @@ class Socket extends EventEmitter {
 
     this.socket.onmessage = (e) => {
       var message = JSON.parse(e.data);
-      console.log('message', message);
       this.emit(message.type, message.message);
     };
     this.socket.onopen = () => {

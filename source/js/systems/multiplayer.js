@@ -1,5 +1,6 @@
 'use strict';
 
+var Entity = require('../entity');
 var playerFactory = require('../factories/player');
 var socketComponent = require('../components/socketControlled');
 
@@ -25,6 +26,9 @@ var setPlayerData = (player, data) => {
   });
 };
 
+// [TODO] Better way than assuming keyboardControlled is only player?
+var isLocalPlayer = (entity) => entity.hasComponent('keyboardControlled');
+
 class Multiplayer {
   static create (socket) {
     return new Multiplayer(socket);
@@ -33,14 +37,24 @@ class Multiplayer {
   constructor (socket) {
     this.socket = socket;
     this.updates = [];
+    this.spawns = [];
     this.peers = new Map();
     this.beat = true;
 
     this.socket.on('player/left', data => this.peerLeft(data));
     this.socket.on('player/update', data => this.updates.push(data));
+    this.socket.on('game/spawn', data => this.spawns.push(data));
   }
 
   tick (entities) {
+    this.beat = !this.beat;
+    this.readUpdates();
+    this.readSpawns();
+    this.sendUpdates(entities);
+    this.sendSpawns(entities);
+  }
+
+  readUpdates () {
     this.updates.forEach((data) => {
       var player = this.peers.get(data.player_id);
 
@@ -57,21 +71,25 @@ class Multiplayer {
       }
     });
     this.updates = [];
-    this.tick2(entities);
   }
 
-  tick2 (entities) {
+  readSpawns () {
+    this.spawns.forEach((data) => {
+      this.game.addEntity(Entity.fromData(data));
+    });
+    this.spawns = [];
+  }
+
+  sendUpdates (entities) {
     var localPlayer, data;
 
     // No need to send data every tick
-    this.beat = !this.beat;
     if(!this.beat) {
       return;
     }
 
-    // [TODO] Better way than assuming keyboardControlled is only player?
     entities.forEach((entity) => {
-      if(entity.hasComponent('keyboardControlled')) {
+      if(isLocalPlayer(entity)) {
         localPlayer = entity;
       }
     });
@@ -84,6 +102,24 @@ class Multiplayer {
     data = pickLocalPlayerData(localPlayer);
 
     this.socket.send('player/update', data);
+  }
+
+  sendSpawns () {
+    var data = this.mediator.triggered('spawn');
+
+    if(!data) {
+      return;
+    }
+
+    var {spawn, spawner} = data;
+
+    // [TODO] handle this on the server?
+    if(!spawner.getComponent('parent')
+      || !isLocalPlayer(this.game.getEntity(spawner.getComponent('parent').parentId))) {
+      return;
+    }
+
+    this.socket.send('player/spawn', spawn.serialize());
   }
 
   peerLeft ({player_id}) {

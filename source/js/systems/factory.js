@@ -21,7 +21,9 @@ class Factory {
       var e = this.mediator.triggered(factory.event);
 
       if(e) {
-        this.game.addEntity(factories[factory.factory](entity, e));
+        var spawn = factories[factory.factory](entity, e);
+        this.game.addEntity(spawn);
+        this.mediator.emit('spawn', {spawn, spawner: entity});
       }
     });
   }

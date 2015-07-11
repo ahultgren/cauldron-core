@@ -7,6 +7,20 @@ class Entity {
     return new Entity();
   }
 
+  static fromData (data) {
+    var entity = Entity.create();
+
+    if(data.id) {
+      entity.id = data.id;
+      delete data.id;
+    }
+
+    Object.keys(data).forEach((name) => {
+      entity.addComponent(data[name]);
+    });
+    return entity;
+  }
+
   constructor () {
     this.id = uuid.v4();
     this.components = {};
@@ -19,6 +33,10 @@ class Entity {
 
   getComponent (name) {
     return this.components[name];
+  }
+
+  serialize () {
+    return {...this.components, id: this.id};
   }
 
   hasComponent (name) {
