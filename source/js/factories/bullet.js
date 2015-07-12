@@ -11,19 +11,25 @@ module.exports = (source) => {
   var playerFactory = source.getComponent('factory');
   var playerPosition = source.getComponent('position');
   var bullet = Entity.create();
+  var bulletPosition = position(playerPosition);
+  var radius = 5;
 
-  bullet.addComponent(position(playerPosition));
+  // [TODO] Make relative to player size and bullet size
+  bulletPosition.x += radius * Math.cos(playerPosition.a);
+  bulletPosition.y += radius * Math.sin(playerPosition.a);
+
+  bullet.addComponent(bulletPosition);
   bullet.addComponent(physics({
     dx: (playerFactory.data.speed || 5) * Math.cos(playerPosition.a),
     dy: (playerFactory.data.speed || 5) * Math.sin(playerPosition.a),
   }));
   bullet.addComponent(appearance({
     shape: 'arc',
-    radius: 5,
+    radius,
   }));
   bullet.addComponent(collision.fromArc({
-    radius: 5,
     response: 'die',
+    radius,
   }));
   bullet.addComponent(factory({
     event: `collision:${bullet.id}`,

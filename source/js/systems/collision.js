@@ -43,6 +43,22 @@ var makeRect = (entity) => {
   };
 };
 
+var makeCircle = (entity) => {
+  var position = entity.getComponent('position');
+  var collision = entity.getComponent('collision');
+
+  if(collision.shape !== 'circle') {
+    return null;
+  }
+
+  return {
+    id: entity.id,
+    x: position.x + position.offsetX,
+    y: position.y + position.offsetY,
+    radius: collision.radius,
+  };
+};
+
 var makeRects = (entity) => {
   var collision = entity.getComponent('collision');
   var position = entity.getComponent('position');
@@ -64,6 +80,14 @@ var aabbTest = (rect1, rect2) => {
     && rect1.x + rect1.width > rect2.x
     && rect1.y < rect2.y + rect2.height
     && rect1.height + rect1.y > rect2.y;
+};
+
+var circleCircleTest = (rect1, rect2) => {
+  var dx = Math.abs(rect1.x - rect2.x);
+  var dy = Math.abs(rect1.y - rect2.y);
+  var dc2 = Math.pow(dx) + Math.pow(dy);
+
+  return dc2 < Math.pow(rect1.radius + rect2.radius);
 };
 
 var sweptAABB = (a, b, v) => {
@@ -183,8 +207,9 @@ class Collision {
 
   tick (entities) {
     var all = filterSet(isCollidable, entities);
-    var moving = all.filter(isMoving).filter(isActuallyMoving);
-    this.mapTests(moving);
+    var moving = all.filter(isMoving);
+    this.mapTests(moving.filter(isActuallyMoving));
+    this.movingTests(moving);
   }
 
   mapTests (entities) {
@@ -216,6 +241,42 @@ class Collision {
         }
       });
     });
+  }
+
+  movingTests (entities) {
+    var entity1, entity2, rect1, rect2, circle1, circle2, result;
+
+    // [TODO] Sweep AABB tests. with response?
+    for(let i = 0, l = entities.length; i < l; i++) {
+      entity1 = entities[i];
+      rect1 = makeRect(entity1);
+      circle1 = makeCircle(entity1);
+
+      for(let ii = i + 1; ii < l; ii++) {
+        entity2 = entities[ii];
+        rect2 = makeRect(entity2);
+        circle2 = makeCircle(entity2);
+
+        if(circle1 && circle2) {
+          result = circleCircleTest(circle1, circle2);
+        }
+        else {
+          result = aabbTest(rect1, rect2);
+        }
+
+        if(result) {
+          this.mediator.emit(`collision:${entity1.id}`, {});
+          this.mediator.emit(`collision:${entity2.id}`, {});
+
+          if(entity1.getComponent('collision').response === 'die') {
+            this.game.removeEntity(entity1.id);
+          }
+          if(entity2.getComponent('collision').response === 'die') {
+            this.game.removeEntity(entity2.id);
+          }
+        }
+      }
+    }
   }
 }
 
