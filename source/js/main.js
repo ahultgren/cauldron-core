@@ -15,6 +15,7 @@ var Collision = require('./systems/collision');
 var Animation = require('./systems/animation');
 var Expire = require('./systems/expire');
 var Multiplayer = require('./systems/multiplayer');
+var Camera = require('./systems/camera');
 
 var position = require('./components/position');
 var appearance = require('./components/appearance');
@@ -24,6 +25,7 @@ var pointerFollower = require('./components/pointerFollower');
 var parent = require('./components/parent');
 var factory = require('./components/factory');
 var collision = require('./components/collision');
+var cameraTarget = require('./components/cameraTarget');
 
 var playerFactory = require('./factories/player');
 
@@ -33,18 +35,21 @@ var Entity = require('./entity');
 var socket = Socket.create('ws://localhost:5005');
 
 socket.on('game/joined', (rules) => {
+  var canvas = document.querySelector('.js-canvas');
+  var camera = Camera.create(canvas);
   var game = Game.create();
   game.addSystem(KeyboardInput.create());
   game.addSystem(MouseInput.create());
-  game.addSystem(PointerFollower.create());
   game.addSystem(Collision.create());
   game.addSystem(Movement.create());
+  game.addSystem(camera);
+  game.addSystem(PointerFollower.create(camera));
   game.addSystem(Parent.create());
   game.addSystem(Factory.create());
   game.addSystem(Expire.create());
   game.addSystem(Multiplayer.create(socket));
   game.addSystem(Animation.create());
-  game.addSystem(Render.create(document.querySelector('.js-canvas')));
+  game.addSystem(Render.create(canvas, camera));
 
   var map = Entity.create();
   var mapPaths = maps[rules.map];
@@ -64,6 +69,7 @@ socket.on('game/joined', (rules) => {
   var player = playerFactory();
   player.addComponent(keyboardControlled());
   player.addComponent(mouseControlled());
+  player.addComponent(cameraTarget());
   game.addEntity(player);
 
   var shield = Entity.create();

@@ -11,14 +11,14 @@ const SHAPES = {
 var canRender = entity => entity.hasComponents('appearance', 'position');
 
 class Render {
-  static create (canvas) {
-    return new Render(canvas);
+  static create (canvas, game) {
+    return new Render(canvas, game);
   }
 
-  constructor (canvas) {
+  constructor (canvas, camera) {
     this.canvas = canvas;
     this.ctx = canvas.getContext('2d');
-
+    this.camera = camera;
 
     // Set dimensions to css dimensions
     canvas.width = canvas.scrollWidth;
@@ -33,7 +33,7 @@ class Render {
   tick (entities) {
     var ctx = this.ctx;
 
-    this.transform(0, 0, 0);
+    this.transform(-this.camera.x, -this.camera.y, 0);
     ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
     entities.forEach((entity) => {
@@ -51,8 +51,8 @@ class Render {
   }
 
   transform (x, y, a) {
-    var offsetX = x || 0;
-    var offsetY = y || 0;
+    var offsetX = this.camera.x + (x || 0);
+    var offsetY = this.camera.y + (y || 0);
     var offsetA = a || 0;
     var angleSine = 0;
     var angleCosine = 1;

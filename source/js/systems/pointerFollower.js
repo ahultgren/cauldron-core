@@ -1,11 +1,12 @@
 'use strict';
 
 class PointerFollower {
-  static create () {
-    return new PointerFollower();
+  static create (camera) {
+    return new PointerFollower(camera);
   }
 
-  constructor () {
+  constructor (camera) {
+    this.camera = camera;
     this.mouseX = 0;
     this.mouseY = 0;
 
@@ -23,8 +24,8 @@ class PointerFollower {
 
       var position = entity.getComponent('position');
 
-      position.x = this.mouseX;
-      position.y = this.mouseY;
+      position.x = this.mouseX - this.camera.x;
+      position.y = this.mouseY - this.camera.y;
     });
   }
 }
