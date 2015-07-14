@@ -26,6 +26,7 @@ var parent = require('./components/parent');
 var factory = require('./components/factory');
 var collision = require('./components/collision');
 var cameraTarget = require('./components/cameraTarget');
+var cameraBounds = require('./components/cameraBounds');
 
 var playerFactory = require('./factories/player');
 
@@ -54,6 +55,7 @@ socket.on('game/joined', (rules) => {
   var map = Entity.create();
   var mapPaths = maps[rules.map];
   map.addComponent(position());
+  map.addComponent(cameraBounds.fromPaths(mapPaths));
   map.addComponent(appearance({
     shape: 'polygons',
     fill: 'transparent',
