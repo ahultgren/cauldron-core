@@ -40,7 +40,7 @@ socket.on('game/joined', (rules) => {
   var camera = Camera.create(canvas);
   var game = Game.create();
   game.addSystem(KeyboardInput.create());
-  game.addSystem(MouseInput.create());
+  game.addSystem(MouseInput.create(camera)); // [TODO] Bad dependency
   game.addSystem(Collision.create());
   game.addSystem(Movement.create());
   game.addSystem(camera);
