@@ -105,21 +105,15 @@ class Multiplayer {
   }
 
   sendSpawns () {
-    var data = this.mediator.triggered('spawn');
+    this.mediator.triggered('spawn').forEach(({spawn, spawner}) => {
+      // [TODO] handle this on the server?
+      if(!spawner.getComponent('parent')
+        || !isLocalPlayer(this.game.getEntity(spawner.getComponent('parent').parentId))) {
+        return;
+      }
+      this.socket.send('player/spawn', spawn.serialize());
+    });
 
-    if(!data) {
-      return;
-    }
-
-    var {spawn, spawner} = data;
-
-    // [TODO] handle this on the server?
-    if(!spawner.getComponent('parent')
-      || !isLocalPlayer(this.game.getEntity(spawner.getComponent('parent').parentId))) {
-      return;
-    }
-
-    this.socket.send('player/spawn', spawn.serialize());
   }
 
   peerLeft ({player_id}) {

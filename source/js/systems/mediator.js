@@ -15,11 +15,16 @@ class Mediator {
 
   emit (name, data) {
     // [TODO] Support more than one event per event name per tick
-    this.events[name] = data;
+    if(this.events[name]) {
+      this.events[name].push(data);
+    }
+    else {
+      this.events[name] = [data];
+    }
   }
 
   triggered (name) {
-    return this.events[name];
+    return this.events[name] || [];
   }
 }
 

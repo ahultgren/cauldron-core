@@ -18,13 +18,12 @@ class Factory {
       }
 
       var factory = entity.getComponent('factory');
-      var e = this.mediator.triggered(factory.event);
 
-      if(e) {
+      this.mediator.triggered(factory.event).forEach((e) => {
         var spawn = factories[factory.factory](entity, e);
         this.game.addEntity(spawn);
         this.mediator.emit('spawn', {spawn, spawner: entity});
-      }
+      });
     });
   }
 }
