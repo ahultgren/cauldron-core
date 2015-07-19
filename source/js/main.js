@@ -50,7 +50,7 @@ socket.on('game/joined', (rules) => {
   game.addSystem(Expire.create());
   game.addSystem(Multiplayer.create(socket));
   game.addSystem(Animation.create());
-  game.addSystem(Render.create(canvas, camera));
+  game.addRenderSystem(Render.create(canvas, camera));
 
   var map = Entity.create();
   var mapPaths = maps[rules.map];
