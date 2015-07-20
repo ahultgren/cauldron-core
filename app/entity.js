@@ -1,6 +1,7 @@
- 'use strict';
+'use strict';
 
 var uuid = require('uuid');
+var R = require('ramda');
 
 class Entity {
   static create () {
@@ -36,7 +37,10 @@ class Entity {
   }
 
   serialize () {
-    return {...this.components, id: this.id};
+    // [TODO] Components should be a property?
+    return R.merge({
+      id: this.id,
+    }, this.components);
   }
 
   hasComponent (name) {
