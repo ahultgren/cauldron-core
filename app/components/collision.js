@@ -4,6 +4,7 @@ var R = require('ramda');
 
 module.exports = exports = require('../utils/component')({
   name: 'collision',
+  type: '',
   aabb: '',
   shape: '',
   path: '',
@@ -12,22 +13,22 @@ module.exports = exports = require('../utils/component')({
   response: '',
 });
 
-exports.fromArc = ({radius, response}) => {
-  return exports({
-    shape: 'circle',
-    aabb: {
-      width: radius * 2,
-      height: radius * 2,
-      x: -radius,
-      y: -radius,
-    },
-    radius,
-    response,
-  });
+exports.fromArc = (data) => {
+  var collision = exports(data);
+  collision.shape = 'circle';
+  collision.aabb = {
+    width: data.radius * 2,
+    height: data.radius * 2,
+    x: -data.radius,
+    y: -data.radius,
+  };
+
+  return collision;
 };
 
-exports.fromPaths = ({paths, response}) => {
-  var aabbs = paths.map((path) => {
+exports.fromPaths = (data) => {
+  var collision = exports(data);
+  var aabbs = data.paths.map((path) => {
     var xs = path.map(R.prop('0'));
     var ys = path.map(R.prop('1'));
 
@@ -39,10 +40,8 @@ exports.fromPaths = ({paths, response}) => {
     };
   });
 
-  return exports({
-    shape: 'paths',
-    aabbs,
-    paths,
-    response,
-  });
+  collision.shape = 'paths';
+  collision.aabbs = aabbs;
+
+  return collision;
 };

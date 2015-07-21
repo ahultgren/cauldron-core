@@ -1,5 +1,8 @@
 'use strict';
 
+var find = require('../utils/findMap');
+
+var isMap = entity => entity.hasComponent('collision') && entity.getComponent('collision').type === 'map';
 var isCollidable = entity => entity.hasComponents('collision', 'position');
 var isMoving = entity => entity.hasComponents('collision', 'position', 'physics');
 var isActuallyMoving = entity =>
@@ -207,13 +210,18 @@ class Collision {
 
   tick (entities) {
     var all = filterSet(isCollidable, entities);
+    var map = find(isMap, entities);
     var moving = all.filter(isMoving);
-    this.mapTests(moving.filter(isActuallyMoving));
+    this.mapTests(map, moving.filter(isActuallyMoving));
     this.movingTests(moving);
   }
 
-  mapTests (entities) {
-    var mapRects = makeRects(this.game.map);
+  mapTests (map, entities) {
+    if(!map) {
+      return map;
+    }
+
+    var mapRects = makeRects(map);
 
     mapRects.forEach((mapRect) => {
       entities
