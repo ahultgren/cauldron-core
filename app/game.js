@@ -7,11 +7,8 @@ var nextFrame = (callback) => {
   if(typeof window !== 'undefined' && window.requestAnimationFrame) {
     return window.requestAnimationFrame(callback);
   }
-  if(typeof setImmediate !== 'undefined') {
-    return setImmediate(callback);
-  }
 
-  setTimeout(callback, 0);
+  setTimeout(callback, 1000 / 60);
 };
 
 var nowMs = (exact = false) => {
