@@ -85,9 +85,9 @@ var aabbTest = (rect1, rect2) => {
 var circleCircleTest = (rect1, rect2) => {
   var dx = Math.abs(rect1.x - rect2.x);
   var dy = Math.abs(rect1.y - rect2.y);
-  var dc2 = Math.pow(dx) + Math.pow(dy);
+  var dc2 = Math.pow(dx, 2) + Math.pow(dy, 2);
 
-  return dc2 < Math.pow(rect1.radius + rect2.radius);
+  return dc2 < Math.pow(rect1.radius + rect2.radius, 2);
 };
 
 var sweptAABB = (a, b, v) => {

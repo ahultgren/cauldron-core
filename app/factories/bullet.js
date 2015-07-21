@@ -15,8 +15,8 @@ module.exports = (source) => {
   var radius = 5;
 
   // [TODO] Make relative to player size and bullet size
-  bulletPosition.x += radius * Math.cos(playerPosition.a);
-  bulletPosition.y += radius * Math.sin(playerPosition.a);
+  bulletPosition.x += (radius + 10 + 1) * Math.cos(playerPosition.a);
+  bulletPosition.y += (radius + 10 + 1) * Math.sin(playerPosition.a);
 
   bullet.addComponent(bulletPosition);
   bullet.addComponent(physics({
