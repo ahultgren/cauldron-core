@@ -22,12 +22,16 @@ class Entity {
 
   constructor () {
     this.id = uuid.v4();
-    this.components = {};
+    this.setComponents({});
   }
 
   addComponent (component) {
     this.components[component.name] = component;
     return this;
+  }
+
+  setComponents (components) {
+    this.components = components;
   }
 
   getComponent (name) {
