@@ -262,8 +262,12 @@ class Collision {
         }
 
         if(result) {
-          this.mediator.emit(`collision:${entity1.id}`, {});
-          this.mediator.emit(`collision:${entity2.id}`, {});
+          this.mediator.emit(`collision:${entity1.id}`, {
+            hitBy: entity2.id,
+          });
+          this.mediator.emit(`collision:${entity2.id}`, {
+            hitBy: entity1.id,
+          });
 
           if(entity1.getComponent('collision').response === 'die') {
             this.game.removeEntity(entity1.id);
