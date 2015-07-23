@@ -5,6 +5,7 @@ var positionComponent = require('../components/position');
 var physicsComponent = require('../components/physics');
 var appearanceComponent = require('../components/appearance');
 var collisionComponent = require('../components/collision');
+var scoreComponent = require('../components/score');
 
 module.exports = ({
   position = {
@@ -24,6 +25,7 @@ module.exports = ({
   collision = {
     radius: 10,
   },
+  score = {},
 } = {}) => {
   var player = Entity.create();
 
@@ -31,6 +33,7 @@ module.exports = ({
   player.addComponent(appearanceComponent(appearance));
   player.addComponent(physicsComponent(physics));
   player.addComponent(collisionComponent.fromArc(collision));
+  player.addComponent(scoreComponent(score));
 
   return player;
 };
