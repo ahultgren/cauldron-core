@@ -10,6 +10,7 @@ module.exports = {
   factory: require('./factory'),
   keyboardControlled: require('./keyboardControlled'),
   mouseControlled: require('./mouseControlled'),
+  owner: require('./owner'),
   parent: require('./parent'),
   physics: require('./physics'),
   pointerFollower: require('./pointerFollower'),

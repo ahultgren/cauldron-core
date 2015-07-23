@@ -1,15 +1,16 @@
 'use strict';
 
+var components = require('../components');
 var Entity = require('../entity');
-var position = require('../components/position');
-var physics = require('../components/physics');
-var appearance = require('../components/appearance');
-var collision = require('../components/collision');
-var factory = require('../components/factory');
+
+var {
+  position, physics, appearance, collision, factory, owner,
+} = components;
 
 module.exports = (source) => {
   var playerFactory = source.getComponent('factory');
   var playerPosition = source.getComponent('position');
+  var playerId = source.getComponent('parent').parentId;
   var bullet = Entity.create();
   var bulletPosition = position(playerPosition);
   var radius = 5;
@@ -35,6 +36,9 @@ module.exports = (source) => {
     event: `collision:${bullet.id}`,
     factory: 'explosion',
     data: {},
+  }));
+  bullet.addComponent(owner({
+    ownerId: playerId,
   }));
 
   return bullet;
