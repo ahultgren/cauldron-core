@@ -1,24 +1,13 @@
 'use strict';
 
 var find = require('../utils/findMap');
+var filter = require('../utils/filter');
 
 var isMap = entity => entity.hasComponent('collision') && entity.getComponent('collision').type === 'map';
 var isCollidable = entity => entity.hasComponents('collision', 'position');
 var isMoving = entity => entity.hasComponents('collision', 'position', 'physics');
 var isActuallyMoving = entity =>
   Math.abs(entity.getComponent('physics').dx) > 0 || Math.abs(entity.getComponent('physics').dy) > 0;
-
-var filterSet = (fn, set) => {
-  var result = [];
-
-  set.forEach((item) => {
-    if(fn(item)) {
-      result.push(item);
-    }
-  });
-
-  return result;
-};
 
 var makeBroadRect = ({x, y, dx, dy, width, height}) => {
   return {
@@ -209,7 +198,7 @@ class Collision {
   }
 
   tick (entities) {
-    var all = filterSet(isCollidable, entities);
+    var all = filter(isCollidable, entities);
     var map = find(isMap, entities);
     var moving = all.filter(isMoving);
     this.mapTests(map, moving.filter(isActuallyMoving));
