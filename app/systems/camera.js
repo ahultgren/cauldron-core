@@ -19,6 +19,10 @@ class Camera {
     var target = find(entity => entity.hasComponent('cameraTarget'), entities);
     var map = find(entity => entity.hasComponent('cameraBounds'), entities);
 
+    if(!target || !map) {
+      return;
+    }
+
     var targetPos = target.getComponent('position');
     var bounds = map.getComponent('cameraBounds');
 
