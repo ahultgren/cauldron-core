@@ -22,7 +22,7 @@ class Entity {
 
   constructor () {
     this.id = uuid.v4();
-    this.setComponents({});
+    this.components = {};
   }
 
   addComponent (component) {
@@ -31,7 +31,10 @@ class Entity {
   }
 
   setComponents (components) {
-    this.components = components;
+    Object.keys(components).forEach((name) => {
+      this.components[name] = components[name];
+    });
+    return this;
   }
 
   getComponent (name) {
