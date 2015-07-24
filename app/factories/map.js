@@ -8,18 +8,18 @@ var {
 
 module.exports = (name) => {
   var map = Entity.create();
-  var mapPaths = maps[name];
+  var mapData = maps[name];
 
   map.addComponent(position());
-  map.addComponent(cameraBounds.fromPaths(mapPaths));
+  map.addComponent(cameraBounds.fromPaths(mapData.paths));
   map.addComponent(appearance({
     shape: 'polygons',
     fill: 'transparent',
-    stroke: '#f00',
-    paths: mapPaths,
+    stroke: mapData.color,
+    paths: mapData.paths,
   }));
   map.addComponent(collision.fromPaths({
-    paths: mapPaths,
+    paths: mapData.paths,
     type: 'map',
   }));
 
