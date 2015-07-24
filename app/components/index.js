@@ -8,6 +8,7 @@ module.exports = {
   collision: require('./collision'),
   expire: require('./expire'),
   factory: require('./factory'),
+  health: require('./health'),
   keyboardControlled: require('./keyboardControlled'),
   mouseControlled: require('./mouseControlled'),
   owner: require('./owner'),
