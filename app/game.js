@@ -48,7 +48,9 @@ class Game {
   }
 
   removeEntity (id) {
-    this.entities.get(id).remove = true;
+    this.entities.get(id).addComponent({
+      name: 'remove'
+    });
     return this;
   }
 
@@ -90,7 +92,7 @@ class Game {
 
   update () {
     this.entities.forEach((entity) => {
-      if(entity.remove) {
+      if(entity.hasComponent('remove')) {
         this.entities.delete(entity.id);
       }
     });
