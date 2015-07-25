@@ -6,6 +6,7 @@ module.exports = {
   cameraBounds: require('./cameraBounds'),
   cameraTarget: require('./cameraTarget'),
   collision: require('./collision'),
+  damage: require('./damage'),
   expire: require('./expire'),
   factory: require('./factory'),
   health: require('./health'),

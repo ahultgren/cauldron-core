@@ -4,7 +4,7 @@ var components = require('../components');
 var Entity = require('../entity');
 
 var {
-  position, physics, appearance, collision, factory, owner,
+  position, physics, appearance, collision, factory, owner, damage,
 } = components;
 
 module.exports = (source) => {
@@ -39,6 +39,9 @@ module.exports = (source) => {
   }));
   bullet.addComponent(owner({
     ownerId: playerId,
+  }));
+  bullet.addComponent(damage({
+    damage: playerFactory.data.damage,
   }));
 
   return bullet;
