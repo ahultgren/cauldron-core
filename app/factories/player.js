@@ -15,16 +15,16 @@ module.exports = ({
   },
   appearance = {
     shape: 'arc',
-    radius: 10,
+    radius: 8,
     gap: Math.PI * 0.25,
     segment: true,
   },
   physics = {
-    acceleration: 2.5,
+    acceleration: 2.0,
     friction: 0.65,
   },
   collision = {
-    radius: 10,
+    radius: 8,
   },
   score = {},
   health = {
