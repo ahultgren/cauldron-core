@@ -17,5 +17,6 @@ module.exports = {
   physics: require('./physics'),
   pointerFollower: require('./pointerFollower'),
   position: require('./position'),
+  powerup: require('./powerup'),
   score: require('./score'),
 };

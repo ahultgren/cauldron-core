@@ -7,6 +7,13 @@ module.exports = {
     [900, 900],
     [100, 900],
   ],
+  powerupPoints: [
+    {
+      type: 'replenishHealth',
+      respawnAfter: 10 * 60,
+      coords: [150, 500],
+    },
+  ],
   color: '#f90',
   paths: [
     // Edge

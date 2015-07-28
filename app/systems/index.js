@@ -12,5 +12,6 @@ module.exports = {
   Movement: require('./movement'),
   Parent: require('./parent'),
   PointerFollower: require('./pointerFollower'),
+  Powerups: require('./powerups'),
   Render: require('./render'),
 };
