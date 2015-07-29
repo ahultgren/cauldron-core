@@ -1,6 +1,7 @@
 'use strict';
 
 module.exports = require('../utils/component')({
-  name: 'powerup',
-  type: '',
+  name: 'reactivate',
+  event: '',
+  reactivateAfter: 1,
 });

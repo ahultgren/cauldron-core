@@ -18,5 +18,6 @@ module.exports = {
   pointerFollower: require('./pointerFollower'),
   position: require('./position'),
   powerup: require('./powerup'),
+  reactivate: require('./reactivate'),
   score: require('./score'),
 };

@@ -13,5 +13,6 @@ module.exports = {
   Parent: require('./parent'),
   PointerFollower: require('./pointerFollower'),
   Powerups: require('./powerups'),
+  Reactivate: require('./reactivate'),
   Render: require('./render'),
 };

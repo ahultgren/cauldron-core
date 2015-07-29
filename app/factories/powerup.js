@@ -1,14 +1,20 @@
 'use strict';
 
 var Entity = require('../entity.js');
-var {powerup, position, physics, collision, appearance} = require('../components');
+var {
+  powerup, position, physics, collision, appearance, reactivate
+} = require('../components');
 
 module.exports = ({type, respawnAfter, coords: [x, y]}) => {
   var entity = Entity.create();
 
   entity.addComponent(position({x, y}));
   entity.addComponent(physics());
-  entity.addComponent(powerup({type, respawnAfter}));
+  entity.addComponent(powerup({type}));
+  entity.addComponent(reactivate({
+    event: 'collision',
+    reactivateAfter: respawnAfter,
+  }));
   entity.addComponent(collision.fromArc({
     radius: 15,
   }));
