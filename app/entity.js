@@ -1,6 +1,7 @@
 'use strict';
 
 var uuid = require('uuid');
+var R = require('ramda');
 
 class Entity {
   static create () {
@@ -44,7 +45,7 @@ class Entity {
   serialize () {
     return {
       id: this.id,
-      components: this.components,
+      components: R.merge({}, this.components),
     };
   }
 
