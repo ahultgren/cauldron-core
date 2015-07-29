@@ -2,6 +2,7 @@
 
 module.exports = {
   collision: {
+    type: 'object',
     radius: 15,
   },
   powerup: {

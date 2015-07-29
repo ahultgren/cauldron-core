@@ -24,6 +24,8 @@ module.exports = ({
     friction: 0.65,
   },
   collision = {
+    type: 'player',
+    collidesWith: ['map', 'bullet', 'object', 'obstacle'],
     radius: 8,
   },
   score = {},

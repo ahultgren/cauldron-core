@@ -1,5 +1,6 @@
 'use strict';
 
+var R = require('ramda');
 var find = require('../utils/findMap');
 var filter = require('../utils/filter');
 
@@ -66,6 +67,17 @@ var makeRects = (entity) => {
     };
   });
 };
+
+var canHitEachOther = R.curry((entity1, entity2) => {
+  var collision1 = entity1.getComponent('collision');
+  var collision2 = entity2.getComponent('collision');
+
+  return ((!collision1.collidesWith
+      || collision1.collidesWith.indexOf(collision2.type) > -1)
+    && (!collision2.collidesWith
+      || collision2.collidesWith.indexOf(collision1.type) > -1)
+  );
+});
 
 var aabbTest = (rect1, rect2) => {
   return rect1.x < rect2.x + rect2.width
@@ -182,9 +194,9 @@ var sweptAABB = (a, b, v) => {
   return [outVel, hitNormal];
 };
 
-var broadTest = (mapRect) => (rect) => {
+var broadTest = R.curry((mapRect, rect) => {
   return aabbTest(mapRect, makeBroadRect(rect));
-};
+});
 
 /* Public API
 ============================================================================= */
@@ -214,6 +226,7 @@ class Collision {
 
     mapRects.forEach((mapRect) => {
       entities
+      .filter(canHitEachOther(map))
       .map(makeRect)
       .filter(broadTest(mapRect))
       .forEach((rect) => {
@@ -253,6 +266,10 @@ class Collision {
         entity2 = entities[ii];
         rect2 = makeRect(entity2);
         circle2 = makeCircle(entity2);
+
+        if(!canHitEachOther(entity1, entity2)) {
+          continue;
+        }
 
         if(circle1 && circle2) {
           result = circleCircleTest(circle1, circle2);

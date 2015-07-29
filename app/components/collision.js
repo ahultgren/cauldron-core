@@ -5,6 +5,7 @@ var R = require('ramda');
 module.exports = exports = require('../utils/component')({
   name: 'collision',
   type: '',
+  collidesWith: '',
   aabb: '',
   shape: '',
   path: '',

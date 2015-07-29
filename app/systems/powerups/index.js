@@ -22,10 +22,7 @@ class Powerups {
       .forEach(({hitBy}) => {
         var hitByEntity = this.game.getEntity(hitBy);
 
-        // [TODO] This check should not be needed when smarter type-based collision detecting has been implemented
-        if(hitByEntity.hasComponent('score')) {
-          this.applyPowerup(entity.getComponent('powerup'), hitByEntity);
-        }
+        this.applyPowerup(entity.getComponent('powerup'), hitByEntity);
       });
     });
   }

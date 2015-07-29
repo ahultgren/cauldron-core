@@ -29,6 +29,8 @@ module.exports = (source) => {
     radius,
   }));
   bullet.addComponent(collision.fromArc({
+    type: 'bullet',
+    collidesWith: ['map', 'player', 'obstacle'],
     response: 'die',
     radius,
   }));
