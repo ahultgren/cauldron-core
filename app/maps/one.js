@@ -1,5 +1,8 @@
 'use strict';
 
+var R = require('ramda');
+var replenishHealth = require('../prototypes/powerups/replenishHealth');
+
 module.exports = {
   spawnPoints: [
     [100, 100],
@@ -8,11 +11,18 @@ module.exports = {
     [100, 900],
   ],
   powerupPoints: [
-    {
-      type: 'replenishHealth',
-      respawnAfter: 10 * 60,
-      coords: [150, 500],
-    },
+    R.merge({
+      position: {
+        x: 150,
+        y: 500,
+      }
+    }, replenishHealth),
+    R.merge({
+      position: {
+        x: 850,
+        y: 500,
+      },
+    }, replenishHealth)
   ],
   color: '#f90',
   paths: [
@@ -23,9 +33,9 @@ module.exports = {
     [[0, 1000], [0, 0]],
 
     [[400, 400], [400, 500], [500, 500], [500, 400], [400, 400]],
-    [[200, 300], [200, 700]],
-    [[200, 700], [700, 700]],
-    [[700, 700], [700, 200]],
-    [[700, 200], [300, 200]],
+    [[200, 300], [200, 800]],
+    [[200, 800], [800, 800]],
+    [[800, 800], [800, 200]],
+    [[800, 200], [300, 200]],
   ]
 };
