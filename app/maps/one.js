@@ -2,6 +2,7 @@
 
 var R = require('ramda');
 var replenishHealth = require('../prototypes/powerups/replenishHealth');
+var ghost = require('../prototypes/powerups/ghost');
 
 module.exports = {
   spawnPoints: [
@@ -22,7 +23,13 @@ module.exports = {
         x: 850,
         y: 500,
       },
-    }, replenishHealth)
+    }, replenishHealth),
+    R.merge({
+      position: {
+        x: 750,
+        y: 750,
+      },
+    }, ghost)
   ],
   color: '#f90',
   paths: [
@@ -32,7 +39,7 @@ module.exports = {
     [[1000, 1000], [0, 1000]],
     [[0, 1000], [0, 0]],
 
-    [[400, 400], [400, 500], [500, 500], [500, 400], [400, 400]],
+    [[400, 400], [400, 600], [600, 600], [600, 400], [400, 400]],
     [[200, 300], [200, 800]],
     [[200, 800], [800, 800]],
     [[800, 800], [800, 200]],
