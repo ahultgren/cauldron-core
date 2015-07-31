@@ -24,16 +24,19 @@ class Entity {
   constructor () {
     this.id = uuid.v4();
     this.components = {};
+    this.dirty = {};
   }
 
   addComponent (component) {
     this.components[component.name] = component;
+    this.touch(component.name);
     return this;
   }
 
   setComponents (components) {
     Object.keys(components).forEach((name) => {
       this.components[name] = components[name];
+      this.touch(name);
     });
     return this;
   }
@@ -46,6 +49,16 @@ class Entity {
     return {
       id: this.id,
       components: R.merge({}, this.components),
+    };
+  }
+
+  serializeDirty () {
+    return {
+      id: this.id,
+      components: Object.keys(this.dirty || {}).reduce((components, name) => {
+        components[name] = this.components[name];
+        return components;
+      }, {}),
     };
   }
 
@@ -64,6 +77,18 @@ class Entity {
 
     delete this.components[name];
     return this;
+  }
+
+  clean () {
+    this.dirty = false;
+  }
+
+  touch (component) {
+    if(!this.dirty) {
+      this.dirty = {};
+    }
+
+    this.dirty[component] = true;
   }
 }
 

@@ -88,6 +88,7 @@ class Game {
     }
 
     this.render();
+    this.clean();
   }
 
   update () {
@@ -96,11 +97,20 @@ class Game {
         this.entities.delete(entity.id);
       }
     });
+
     this.systems.forEach(system => system.tick(this.entities));
   }
 
   render () {
     this.renderSystems.forEach(system => system.tick(this.entities));
+  }
+
+  clean () {
+    this.entities.forEach((entity) => {
+      if(entity.dirty) {
+        entity.clean();
+      }
+    });
   }
 
   start () {
