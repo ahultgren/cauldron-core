@@ -4,6 +4,7 @@ module.exports = (entity) => {
   var collision = entity.getComponent('collision');
 
   if(collision.collidesWith.indexOf('map') > -1) {
+    entity.touch('collision');
     collision.collidesWith.splice(collision.collidesWith.indexOf('map'), 1);
 
     if(collision.notCollidesWith) {
@@ -16,6 +17,7 @@ module.exports = (entity) => {
 
   setTimeout(() => {
     collision.notCollidesWith.splice(collision.notCollidesWith.indexOf('map'), 1);
+    entity.touch('collision');
 
     // Prevent overriding multiple powerups
     if(collision.notCollidesWith.indexOf('map') === -1) {
