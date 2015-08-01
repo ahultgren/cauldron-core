@@ -31,6 +31,7 @@ class MouseInput {
 
       var position = entity.getComponent('position');
 
+      entity.touch('position');
       position.a = Math.atan2(
         this.mouseY - position.y - this.camera.y,
         this.mouseX - position.x - this.camera.x

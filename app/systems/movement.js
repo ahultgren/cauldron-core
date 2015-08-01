@@ -20,6 +20,9 @@ class Movement {
       var position = entity.getComponent('position');
       var physics = entity.getComponent('physics');
 
+      entity.touch('position');
+      entity.touch('physics');
+
       position.lastX = physics.x;
       position.lastY = physics.y;
       position.x += physics.dx;

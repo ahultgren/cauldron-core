@@ -28,6 +28,7 @@ class KeyboardInput {
       var physics = entity.getComponent('physics');
       var keyboard = entity.getComponent('keyboardControlled');
 
+      entity.touch('physics');
       if(this.isPressed[keyboard.left]) {
         physics.dx -= physics.acceleration;
       }

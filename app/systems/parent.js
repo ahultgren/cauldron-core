@@ -26,6 +26,8 @@ class Parent {
         }
       });
 
+      entity.touch('position');
+
       position.x = parentPosition.x;
       position.y = parentPosition.y;
       position.a = parentPosition.a;

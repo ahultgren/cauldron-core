@@ -18,10 +18,12 @@ class Animation {
       var appearance = entity.getComponent('appearance');
 
       if(animation.frame < animation.duration) {
+        entity.touch('animation');
         animation.frame++;
       }
 
       if(animation.animation === 'shrink') {
+        entity.touch('appearance');
         // Only handle arcs for now
         appearance.radius -= appearance.radius / (animation.duration - animation.frame);
       }

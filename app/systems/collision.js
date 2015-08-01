@@ -237,6 +237,8 @@ class Collision {
           var entity = this.game.getEntity(rect.id);
           var physics = entity.getComponent('physics');
 
+          entity.touch('physics');
+
           if(normalX) {
             physics.dx = result[0].dx;
           }

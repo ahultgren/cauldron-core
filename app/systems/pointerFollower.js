@@ -24,6 +24,8 @@ class PointerFollower {
 
       var position = entity.getComponent('position');
 
+      entity.touch('position');
+
       position.x = this.mouseX - this.camera.x;
       position.y = this.mouseY - this.camera.y;
     });

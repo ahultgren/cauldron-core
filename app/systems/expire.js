@@ -16,6 +16,7 @@ class Expire {
 
       var expire = entity.getComponent('expire');
 
+      entity.touch('expire');
       expire.frame++;
 
       if(expire.frame >= expire.duration) {
