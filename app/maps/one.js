@@ -1,9 +1,5 @@
 'use strict';
 
-var R = require('ramda');
-var replenishHealth = require('../prototypes/powerups/replenishHealth');
-var ghost = require('../prototypes/powerups/ghost');
-
 module.exports = {
   spawnPoints: [
     [100, 100],
@@ -12,24 +8,33 @@ module.exports = {
     [100, 900],
   ],
   powerupPoints: [
-    R.merge({
+    {
+      powerup: 'replenishHealth',
+      icon: 'health',
+      reactivateAfter: 60 * 10,
       position: {
         x: 150,
         y: 500,
       }
-    }, replenishHealth),
-    R.merge({
+    },
+    {
+      powerup: 'replenishHealth',
+      icon: 'health',
+      reactivateAfter: 60 * 10,
       position: {
         x: 850,
         y: 500,
-      },
-    }, replenishHealth),
-    R.merge({
+      }
+    },
+    {
+      powerup: 'ghost',
+      icon: 'ghost',
+      reactivateAfter: 60 * 15,
       position: {
         x: 750,
         y: 750,
-      },
-    }, ghost)
+      }
+    }
   ],
   color: '#f90',
   paths: [
