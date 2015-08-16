@@ -2,16 +2,12 @@
 
 var Entity = require('../entity.js');
 var components = require('../components');
-var icons = {
-  health: require('../prototypes/icons/health'),
-  ghost: require('../prototypes/icons/ghost'),
-};
+var powerups = require('../systems/powerups/powerups');
 
 module.exports = ({
   position,
   powerup,
   reactivateAfter,
-  icon,
 }) => {
   var entity = Entity.create();
 
@@ -19,7 +15,6 @@ module.exports = ({
   entity.addComponent(components.position(position));
   entity.addComponent(components.powerup({
     type: powerup,
-    icon,
   }));
   entity.addComponent(components.reactivate({
     event: 'collision',
@@ -36,8 +31,8 @@ module.exports = ({
       fill: 'transparent',
       stroke: '#0f0',
     },
-    icons[icon]]
-  }));
+    powerups[powerup].icon
+  ]}));
 
   return entity;
 };

@@ -7,6 +7,7 @@ var appearanceComponent = require('../components/appearance');
 var collisionComponent = require('../components/collision');
 var scoreComponent = require('../components/score');
 var healthComponent = require('../components/health');
+var powerupTargetComponent = require('../components/powerupTarget');
 
 module.exports = ({
   position = {
@@ -33,6 +34,9 @@ module.exports = ({
     health: 10,
     maxHealth: 10,
   },
+  powerupTarget = {
+    powerups: [],
+  },
 } = {}) => {
   var player = Entity.create();
 
@@ -42,6 +46,7 @@ module.exports = ({
   player.addComponent(collisionComponent.fromArc(collision));
   player.addComponent(scoreComponent(score));
   player.addComponent(healthComponent(health));
+  player.addComponent(powerupTargetComponent(powerupTarget));
 
   return player;
 };

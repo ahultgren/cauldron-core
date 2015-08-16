@@ -1,8 +1,11 @@
 'use strict';
 
-module.exports = (entity) => {
-  var health = entity.getComponent('health');
+module.exports = {
+  activate (entity) {
+    var health = entity.getComponent('health');
 
-  entity.touch('health');
-  health.health = health.maxHealth;
+    entity.touch('health');
+    health.health = health.maxHealth;
+  },
+  icon: require('../../../prototypes/icons/health'),
 };

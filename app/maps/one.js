@@ -10,7 +10,6 @@ module.exports = {
   powerupPoints: [
     {
       powerup: 'replenishHealth',
-      icon: 'health',
       reactivateAfter: 60 * 10,
       position: {
         x: 150,
@@ -19,7 +18,6 @@ module.exports = {
     },
     {
       powerup: 'replenishHealth',
-      icon: 'health',
       reactivateAfter: 60 * 10,
       position: {
         x: 850,
@@ -28,7 +26,6 @@ module.exports = {
     },
     {
       powerup: 'ghost',
-      icon: 'ghost',
       reactivateAfter: 60 * 15,
       position: {
         x: 750,
