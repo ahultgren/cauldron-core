@@ -49,6 +49,7 @@ class Powerups {
     powerup.activate(entity);
 
     if(powerup.duration) {
+      entity.touch('powerupTarget');
       powerupTarget.powerups.push({
         type,
         duration: powerup.duration,
@@ -63,6 +64,7 @@ class Powerups {
       powerupTarget.powerups.forEach((powerup, i) => {
         var hasAnotherPowerup;
 
+        entity.touch('powerupTarget');
         if((powerup.duration--) <= 0) {
           powerupTarget.powerups.splice(i, 1);
           hasAnotherPowerup = R.findIndex(p => p.type === powerup.type, powerupTarget.powerups) !== -1;
