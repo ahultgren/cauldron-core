@@ -8,8 +8,10 @@ module.exports = (ctx, {fill, stroke, radius, gap = 0, segment}) => {
     ctx.lineTo(0, 0);
   }
 
-  ctx.fillStyle = fill;
-  ctx.fill();
+  if(fill) {
+    ctx.fillStyle = fill;
+    ctx.fill();
+  }
 
   if(stroke) {
     ctx.strokeStyle = stroke;
