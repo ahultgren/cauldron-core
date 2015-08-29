@@ -47,9 +47,13 @@ class Render {
       this.transform(x, y, a);
       ctx.translate(offsetX, offsetY);
 
-      (appearance.shapes || [appearance]).forEach((appearance_) => {
-        (SHAPES[appearance_.shape] || SHAPES.noop)(ctx, appearance_);
-      });
+      this.draw(ctx, appearance);
+    });
+  }
+
+  draw (ctx, appearance) {
+    (appearance.shapes || [appearance]).forEach((appearance_) => {
+      (SHAPES[appearance_.shape] || SHAPES.noop)(ctx, appearance_);
     });
   }
 
